@@ -9,6 +9,13 @@ class UnaryOperator:
         self.expr = expr
 
 
+class BinaryOp:
+    def __init__(self, name, expr_left, expr_right):
+        self.name = name
+        self.expr_left = expr_left
+        self.expr_right = expr_right
+
+
 class Return:
     def __init__(self, expr):
         self.val = expr

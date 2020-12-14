@@ -1,6 +1,6 @@
 import os
 
-stage_up_to = 2
+stage_up_to = 3
 for stage in range(1, stage_up_to + 1):
     print(f"stage_{stage}")
     valid_success = 0
@@ -16,7 +16,7 @@ for stage in range(1, stage_up_to + 1):
                 os.system(f"gcc {c_file} -o aa.out")
                 expected_ret = os.system("./aa.out")
                 ret = os.system("python3 main.py " + c_file)
-                rr = os.system("gcc assembly.s -o a.out")
+                rr = os.system("gcc -m32 assembly.s -o a.out")
                 actual_ret = os.system("./a.out")
                 if actual_ret != expected_ret:
                     print("FAIL on " + file)
@@ -43,3 +43,4 @@ for stage in range(1, stage_up_to + 1):
     print("\tinvalid:")
     print(f"\t\tpassed: {invalid_success}")
     print(f"\t\tfailed: {invalid_failed}")
+    print()
