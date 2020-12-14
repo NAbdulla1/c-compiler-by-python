@@ -39,20 +39,16 @@ class CodeGenerator:
         print(f"\tpushl ${val}\n", file=self.out_file)
 
     def _generate_unary_op_asm(self, operator_name):
+        print(f"\tpopl %eax", file=self.out_file)
         if operator_name == "Negation":
-            print(f"\tpopl %eax", file=self.out_file)
             print(f"\tneg %eax", file=self.out_file)
-            print(f"\tpushl %eax\n", file=self.out_file)
         elif operator_name == "Bitwise complement":
-            print(f"\tpopl %eax", file=self.out_file)
             print(f"\tnot %eax", file=self.out_file)
-            print(f"\tpushl %eax\n", file=self.out_file)
         else:  # Logical Negation
-            print(f"\tpopl %eax", file=self.out_file)
             print(f"\tcmpl $0, %eax", file=self.out_file)  # this will set zero-flag(ZF) in to 1 if eax == 0
             print(f"\tmovl $0, %eax", file=self.out_file)  # set eax to 0 means all bytes of eax is set to 0
             print(f"\tsete %al", file=self.out_file)  # 'sete' sets al to 1 if ZF is 1
-            print(f"\tpushl %eax\n", file=self.out_file)
+        print(f"\tpushl %eax\n", file=self.out_file)
 
     def _generate_binary_op_asm(self, operator_name):
         print("\tpopl %ecx /* right_operand */", file=self.out_file)
