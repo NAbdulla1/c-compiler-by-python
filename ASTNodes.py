@@ -3,9 +3,20 @@ class Constant:
         self.integer = val
 
 
+class UnaryOperator:
+    def __init__(self, name, expr):
+        self.name = name
+        self.expr = expr
+
+
 class Return:
-    def __init__(self, constant):
-        self.val = constant
+    def __init__(self, expr):
+        self.val = expr
+
+
+class Expression:
+    def __init__(self, expr):
+        self.expr = expr
 
 
 class Function:

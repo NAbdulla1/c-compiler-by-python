@@ -21,8 +21,9 @@ if __name__ == "__main__":
 
         lexer = Lexer(src_code)
         parser = Parser(lexer)
-        ast_root = parser.parse_program()
         # print("parsing successful")
+        # exit(0)
+        ast_root = parser.parse_program()
 
         out = open("assembly.s", "w")  # sys.stdout
         CodeGenerator(ast_root, out).generate_code()

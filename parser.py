@@ -1,12 +1,15 @@
 # BNF grammar:
+# terminals are denoted by quotes and non-terminals are denoted by without quotes
 # program = function
 # function = "Int keyword" "Identifier" "Open parenthesis" "Close parenthesis" "Open brace" statement "Close brace"
 # statement = "Return keyword" expression "Semicolon"
-# expression = "Integer literal"
+# expression = unary_op expression | "Integer literal"
+# unary_op = "Negation" | "Bitwise complement" | "Logical negation"
 
 import sys
 
 from ASTNodes import *
+from constants import unary_operators
 
 
 class Parser:
@@ -62,15 +65,20 @@ class Parser:
 
         return Return(const)
 
-    def parse_expression(self):
-        tok = self.next_token(True)
-        if tok.name != "Integer literal":
+    def parse_expression(self, previous_was_unary_op=False):
+        tok = self.next_token(not previous_was_unary_op)
+        if tok.name == "Integer literal":
+            try:
+                val = int(tok.value)
+            except:
+                self.fail(tok.lineNo)
+            return Expression(Constant(val))
+        elif tok.name in unary_operators:
+            operator = tok.name
+            sub_expr = self.parse_expression(True)
+            return UnaryOperator(operator, sub_expr)
+        else:
             self.fail(tok.lineNo)
-        try:
-            val = int(tok.value)
-        except:
-            self.fail(tok.lineNo)
-        return Constant(val)
 
     def fail(self, line_no):
         print("Syntax error on line:", line_no, file=sys.stderr)
