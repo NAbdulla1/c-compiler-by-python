@@ -20,7 +20,7 @@ if __name__ == "__main__":
         # print(src_code)
 
         lexer = Lexer(src_code)
-        # lexer.print_all_tokens()
+        lexer.print_all_tokens()
 
         parser = Parser(lexer)
         ast_root = parser.parse_program()

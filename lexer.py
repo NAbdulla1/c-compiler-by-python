@@ -20,9 +20,10 @@ class Lexer:
                 if m:
                     length = m.span()[1] - m.span()[0]
 
-                    t = Token(name, self.src_code[:length].strip(), self.line)
+                    cur = self.src_code[:length]
+                    t = Token(name, cur.strip(), self.line)
                     self.src_code = self.src_code[length:]
-                    if "\n" in t.value:
+                    if "\n" in cur:
                         self.line += 1
                     # print(t)
                     if t.name == "white space":
